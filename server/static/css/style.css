@@ -1,0 +1,687 @@
+/* ===========================
+   GLOBAL
+=========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:'Inter',sans-serif;
+
+    background:#182d5f;
+
+    color:#f8fafc;
+
+}
+
+a{
+    text-decoration:none;
+}
+
+.app-container{
+
+    display:flex;
+
+    min-height:100vh;
+
+}
+
+/* ===========================
+   SIDEBAR
+=========================== */
+
+.sidebar{
+
+    width:260px;
+
+    background:#111827;
+
+    border-right:1px solid #1f2937;
+
+    display:flex;
+
+    flex-direction:column;
+
+    position:fixed;
+
+    left:0;
+
+    top:0;
+
+    bottom:0;
+
+}
+
+
+
+.logo{
+
+    padding:20px 20px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    border-bottom:1px solid #1f2937;
+
+}
+
+.logo-img{
+
+    width:64px;
+    height:64px;
+
+    object-fit:contain;
+
+    flex-shrink:0;
+
+    filter: brightness(3);
+
+}
+
+.logo h2{
+
+    font-size:22px;
+    font-weight:700;
+    line-height:1.1;
+
+}
+
+.logo span{
+
+    color:#94a3b8;
+    font-size:13px;
+    margin-top:4px;
+    display:block;
+
+}
+
+/* ===========================
+   NAVIGATION
+=========================== */
+
+.sidebar-nav{
+
+    padding:20px 15px;
+
+    flex:1;
+
+}
+
+.nav-link{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    color:#cbd5e1;
+
+    padding:14px 18px;
+
+    border-radius:12px;
+
+    margin-bottom:8px;
+
+    transition:.25s;
+
+}
+
+.nav-link i{
+
+    width:22px;
+
+    text-align:center;
+
+}
+
+.nav-link:hover{
+
+    background:#1e293b;
+
+    color:white;
+
+}
+
+.nav-link.active{
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+/* ===========================
+   MAIN
+=========================== */
+
+.main-container{
+
+    margin-left:260px;
+
+    flex:1;
+
+}
+
+/* ===========================
+   TOPBAR
+=========================== */
+
+.topbar{
+
+    height:80px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:0 35px;
+
+    background:#210b39;
+
+    border-bottom:1px solid #1f2937;
+
+}
+
+.topbar h1{
+
+    font-size:28px;
+
+}
+
+.topbar p{
+
+    color:#94a3b8;
+
+    margin-top:5px;
+
+}
+
+.topbar-right{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.status{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    color:#cbd5e1;
+
+}
+
+.status-dot{
+
+    width:10px;
+
+    height:10px;
+
+    border-radius:50%;
+
+    background:#22c55e;
+
+}
+
+.icon-btn{
+
+    width:42px;
+
+    height:42px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#1e293b;
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.icon-btn:hover{
+
+    background:#2563eb;
+
+}
+
+/* ===========================
+   CONTENT
+=========================== */
+
+.page-content{
+
+    padding:35px;
+
+}
+
+/* ===========================
+   DASHBOARD CARDS
+=========================== */
+
+.cards{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+
+    gap:25px;
+
+    margin-bottom:35px;
+
+}
+
+.card{
+
+    background:#111827;
+
+    border:1px solid #1f2937;
+
+    border-radius:16px;
+
+    padding:25px ;
+
+    transition:.25s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-4px);
+
+    border-color:#2563eb;
+
+}
+
+.card h3{
+
+    color:#94a3b8;
+
+    font-size:15px;
+
+    margin-bottom:15px;
+
+}
+
+.card h1{
+
+    font-size:36px;
+
+}
+
+/* ===========================
+   PANELS
+=========================== */
+
+.panel{
+
+    background:#111827;
+
+    border:1px solid #1f2937;
+
+    border-radius:16px;
+
+    padding:25px;
+
+    margin-bottom:30px;
+
+}
+
+.panel-title{
+
+    font-size:20px;
+
+    margin-bottom:20px;
+
+}
+
+/* ===========================
+   LOGOUT
+=========================== */
+
+.logout {
+
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    margin: 0 15px 20px 15px;
+    padding: 14px 18px;
+
+    background: #991b1b;
+    color: white;
+
+    border-radius: 12px;
+
+    font-size: 16px;
+    font-weight: 500;
+
+    transition: .25s;
+}
+
+
+.logout:hover {
+    background: rgba(241, 48, 4, 0.934);
+    color: #ffffff;
+}
+
+.logout i {
+    width: 20px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.logout span {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+
+
+/* ===========================
+   TABLES
+=========================== */
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+thead{
+
+    background:#1c273a;
+
+}
+
+th{
+
+    padding:15px;
+
+    text-align:left;
+
+    color:#cbd5e1;
+
+}
+
+td{
+
+    padding:15px;
+
+    border-top:1px solid #1f2937;
+
+}
+
+tbody tr{
+
+    transition:.2s;
+
+}
+
+tbody tr:hover{
+
+    background:#1e293b;
+
+}
+
+/* ===========================
+   STATUS BADGES
+=========================== */
+
+.badge{
+
+    padding:6px 14px;
+
+    border-radius:20px;
+
+    font-size:13px;
+
+    font-weight:600;
+
+}
+
+.badge.online{
+
+    background:#11502a;
+
+    color:#4ade80;
+
+}
+
+.badge.offline{
+
+    background:#3f1d1d;
+
+    color:#f87171;
+
+}
+
+/* ===========================
+   BUTTONS
+=========================== */
+
+.btn{
+
+    background:#6725eb;
+
+    color:white;
+
+    border:none;
+
+    padding:12px 22px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.btn:hover{
+
+    background:#1d4ed8;
+
+}
+
+/* ===========================
+   INPUTS
+=========================== */
+
+input,select{
+
+    font-family: "JetBrains Mono", monospace;
+    font-size: 14px;
+    font-weight: 500;
+
+    width:100%;
+
+    padding:13px;
+
+    background:#062d8a;
+
+    border:1px solid #465a77;
+
+    color:white;
+
+    border-radius:10px;
+
+    margin-top:8px;
+
+    margin-bottom:18px;
+
+}
+
+input:focus,
+select:focus{
+
+    outline:none;
+
+    border-color:#2563eb;
+
+}
+
+/* ===========================
+   TERMINAL
+=========================== */
+
+.terminal{
+
+    background:black;
+
+    color:#00ff66;
+
+    height:fit-content;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    font-family:"Consolas",monospace;
+
+    min-height:0px;
+
+    overflow:auto;
+
+    white-space:pre-wrap;
+
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media(max-width:900px){
+
+.sidebar{
+
+    width:80px;
+
+}
+
+.logo h2,
+.logo span,
+.nav-link span{
+
+    display:none;
+
+}
+
+.main-container{
+
+    margin-left:80px;
+
+}
+
+.cards{
+
+    grid-template-columns:1fr;
+
+}
+
+}
+
+/* =========
+NMAP- Scan
+========= */
+.scan-btn{
+    width:100%;
+    padding:15px;
+    font-size:16px;
+    font-weight:600;
+}
+.scan-layout{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:24px;
+    margin-bottom:24px;
+}
+
+.info-grid{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
+
+.info-box{
+    background:#1b2742;
+    border:1px solid #3157b7;
+    border-radius:10px;
+    padding:16px;
+}
+
+.info-label{
+    display:block;
+    color:#8ea8ff;
+    font-size:.85rem;
+    margin-bottom:8px;
+}
+
+.scan-btn{
+    width:100%;
+    padding:15px;
+    font-size:16px;
+    font-weight:600;
+    margin-top:10px;
+}
+
+
+
+.command-box{
+    background:#1f0447;
+    color:#8fe388;
+    border:1px solid #2b3550;
+    border-radius:10px;
+    padding:15px 18px;
+
+    font-family:"Consolas", monospace;
+    font-size:15px;
+    line-height:1.5;
+
+    white-space:pre-wrap;
+    word-break:break-word;
+
+    min-height:0;
+    height:auto;
+}
+
+.command-line{
+    margin-top:15px;
+    padding:10px 15px;
+
+    background:#140d17;
+    border-left:4px solid #38bdf8;
+
+    color:#8fe388;
+    font-family:"JetBrains Mono", monospace;
+    font-size:14px;
+
+    border-radius:6px;
+}
+
+.terminal-card{
+    margin-top:25px;
+}

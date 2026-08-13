@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block page_title %}CyberLab{% endblock %}</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    {% block head %}{% endblock %}
+
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <!-- ===================== SIDEBAR ===================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <img src="{{ url_for('static', filename='images/logo.png') }}"
+         alt="CyberLab Logo"
+         class="logo-img">
+
+            <div>
+
+                <h2>CyberLab</h2>
+
+                <span>Security Console</span>
+
+            </div>
+
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a href="/"
+               class="nav-link {% if active_page=='dashboard' %}active{% endif %}">
+
+                <i class="fa-solid fa-house"></i>
+
+                <span>Dashboard</span>
+
+            </a>
+
+            <a href="/nmap"
+               class="nav-link {% if active_page=='nmap' %}active{% endif %}">
+
+                <i class="fa-solid fa-network-wired"></i>
+
+                <span>NMAP Scanner</span>
+
+            </a>
+
+            <a href="/hydra"
+               class="nav-link {% if active_page=='hydra' %}active{% endif %}">
+
+                <i class="fa-solid fa-key"></i>
+
+                <span>Hydra</span>
+
+            </a>
+
+            <a href="/john"
+               class="nav-link {% if active_page=='john' %}active{% endif %}">
+
+                <i class="fa-solid fa-lock"></i>
+
+                <span>John the Ripper</span>
+
+            </a>
+
+            <a href="/gobuster"
+               class="nav-link {% if active_page=='gobuster' %}active{% endif %}">
+
+                <i class="fa-solid fa-folder-tree"></i>
+
+                <span>Gobuster</span>
+
+            </a>
+
+            <a href="/transfers"
+               class="nav-link {% if active_page=='transfers' %}active{% endif %}">
+
+                <i class="fa-solid fa-file-arrow-up"></i>
+
+                <span>Transfers</span>
+
+            </a>
+
+            <a href="/logs"
+               class="nav-link {% if active_page=='logs' %}active{% endif %}">
+
+                <i class="fa-solid fa-scroll"></i>
+
+                <span>Logs</span>
+
+            </a>
+
+            <a href="/terminal"
+               class="nav-link {% if active_page=='terminal' %}active{% endif %}">
+
+                <i class="fa-solid fa-terminal"></i>
+
+                <span>Terminal</span>
+
+            </a>
+
+            
+
+        </nav>
+
+        <a href="/logout" class="logout ">
+
+                <i class="fa-solid fa-circle-xmark"></i>
+
+                <span>Logout</span>
+
+        </a>
+
+    </aside>
+
+    <!-- ===================== MAIN ===================== -->
+
+    <div class="main-container">
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>{% block title %}Dashboard{% endblock %}</h1>
+
+                <p>{% block subtitle %}
+                    Cyber Security Management Platform
+                {% endblock %}
+                </p>
+
+            </div>
+
+            <div class="topbar-right">
+
+                <div class="status">
+
+                    <span class="status-dot"></span>
+
+                    <span>Server Online</span>
+
+                </div>
+
+                <button class="icon-btn">
+
+                    <i class="fa-solid fa-bell"></i>
+
+                </button>
+
+                <button class="icon-btn">
+
+                    <i class="fa-solid fa-user-secret"></i>
+
+                </button>
+
+            </div>
+
+        </header>
+
+        <main class="page-content">
+
+            {% block content %}
+
+            {% endblock %}
+
+        </main>
+
+    </div>
+
+</div>
+
+{% block scripts %}{% endblock %}
+
+</body>
+
+</html>

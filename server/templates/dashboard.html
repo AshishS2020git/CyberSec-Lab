@@ -1,0 +1,484 @@
+{% extends "base.html" %}
+
+{% block page_title %}Dashboard | CyberLab{% endblock %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block subtitle %}
+Connected Devices • File Transfers • System Status
+{% endblock %}
+
+{% block content %}
+
+<!-- =======================
+     DASHBOARD CARDS
+======================== -->
+
+<div class="cards">
+
+    <!-- Registered Devices -->
+
+    <div class="card">
+
+        <h3>
+
+            <i class="fa-solid fa-computer"></i>
+
+            Registered Devices
+
+        </h3>
+
+        <h1>{{ devices|length }}</h1>
+
+    </div>
+
+
+    <!-- Online Devices -->
+
+    <div class="card">
+
+        <h3>
+
+            <i class="fa-solid fa-circle-check"></i>
+
+            Online Devices
+
+        </h3>
+
+        <h1>{{ online_devices }}</h1>
+
+    </div>
+
+
+    <!-- Kali VM -->
+
+    <div class="card">
+
+        <h3>
+
+            <i class="fa-brands fa-linux"></i>
+
+            Kali Linux VM
+
+        </h3>
+
+        {% if kali_online %}
+
+            <h2 style="color:#22c55e;margin-top:15px;">
+
+                ● Online
+
+            </h2>
+
+            <p style="margin-top:15px;color:#94a3b8;">
+
+                {{ kali_ip }}
+
+            </p>
+
+        {% else %}
+
+            <h2 style="color:#ef4444;margin-top:15px;">
+
+                ● Offline
+
+            </h2>
+
+            <p style="margin-top:15px;color:#94a3b8;">
+
+                VM not reachable
+
+            </p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- Transfers -->
+
+    <div class="card">
+
+        <h3>
+
+            <i class="fa-solid fa-file-arrow-up"></i>
+
+            Recent Transfers
+
+        </h3>
+
+        <h1>{{ transfers|length }}</h1>
+
+    </div>
+
+</div>
+
+
+<!-- =======================
+     SYSTEM HEALTH
+======================== -->
+
+<div class="panel">
+
+    <h2 class="panel-title">
+
+        <i class="fa-solid fa-heart-pulse"></i>
+
+        System Health
+
+    </h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Component</th>
+
+                <th>Status</th>
+
+                <th>Details</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+
+                <td>Flask Server</td>
+
+                <td>
+
+                    <span class="badge online">
+
+                        Running
+
+                    </span>
+
+                </td>
+
+                <td>Dashboard Active</td>
+
+            </tr>
+
+            <tr>
+
+                <td>SQLite Database</td>
+
+                <td>
+
+                    <span class="badge online">
+
+                        Connected
+
+                    </span>
+
+                </td>
+
+                <td>Device Inventory Available</td>
+
+            </tr>
+
+            <tr>
+
+                <td>Kali Linux VM</td>
+
+                <td>
+
+                    {% if kali_online %}
+
+                        <span class="badge online">
+
+                            Online
+
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge offline">
+
+                            Offline
+
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+                <td>
+
+                    {% if kali_online %}
+
+                        {{ kali_ip }}
+
+                    {% else %}
+
+                        Unable to Communicate
+
+                    {% endif %}
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<!-- =======================
+     CONNECTED DEVICES
+======================== -->
+
+<div class="panel">
+
+    <h2 class="panel-title">
+
+        <i class="fa-solid fa-network-wired"></i>
+
+        Connected Devices
+
+    </h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Hostname</th>
+
+                <th>IP Address</th>
+
+                <th>Operating System</th>
+
+                <th>User</th>
+
+                <th>Status</th>
+
+                <th>Last Seen</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        {% if devices %}
+
+            {% for d in devices %}
+
+            {% set online = d.is_online %}
+
+            <tr>
+
+                <td>
+
+                    <strong>{{ d.hostname }}</strong>
+
+                </td>
+
+                <td>
+
+                    {{ d.ip }}
+
+                </td>
+
+                <td>
+
+                    {{ d.os }}
+
+                </td>
+
+                <td>
+
+                    {{ d.username }}
+
+                </td>
+
+                <td>
+
+                    {% if online %}
+
+                        <span class="badge online">
+                            ● Online
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge offline">
+                            ● Offline
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+                <td>
+
+                    {{ d.last_seen_str }}
+                    
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        {% else %}
+
+            <tr>
+
+                <td colspan="6"
+                    style="text-align:center;padding:40px;">
+
+                   <b> No Registered Devices Found.</b>
+
+                </td>
+
+            </tr>
+
+        {% endif %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+
+<!-- =======================
+     RECENT TRANSFERS
+======================== -->
+
+<div class="panel">
+
+    <h2 class="panel-title">
+
+        <i class="fa-solid fa-file-arrow-up"></i>
+
+        Recent Transfers
+
+    </h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Transfer ID</th>
+
+                <th>Device</th>
+
+                <th>Direction</th>
+
+                <th>Filename</th>
+
+                <th>Status</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        {% if transfers %}
+
+            {% for t in transfers %}
+
+            <tr>
+
+                <td>
+
+                    {{ t.transfer_id[:8] }}...
+
+                </td>
+
+                <td>
+
+                    {{ t.device_id }}
+
+                </td>
+
+                <td>
+
+                    {{ t.direction }}
+
+                </td>
+
+                <td>
+
+                    {{ t.filename }}
+
+                </td>
+
+                <td>
+
+                    {% if t.status == "accepted" %}
+
+                        <span class="badge online">
+                            Accepted
+                        </span>
+
+                    {% elif t.status == "rejected" %}
+
+                        <span class="badge offline">
+                            Rejected
+                        </span>
+
+                    {% elif t.status == "Pending" %}
+
+                        <span class="badge"
+                            style="background:#78350f;color:#fde68a;">
+                            Pending
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge">
+                            {{ t.status }}
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        {% else %}
+
+            <tr>
+
+                <td colspan="5"
+                    style="text-align:center;padding:40px;">
+
+                    No transfers yet.
+
+                </td>
+
+            </tr>
+
+        {% endif %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script src="{{ url_for('static',filename='js/dashboard.js') }}"></script>
+
+{% endblock %}

@@ -1,0 +1,325 @@
+{% extends "base.html" %}
+
+{% block title %}NMAP Scanner{% endblock %}
+
+
+{% block subtitle %}
+Execute reconnaissance and host discovery scans through the Kali Linux virtual machine
+{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1><i class="fa-solid fa-network-wired"></i> NMAP Scanner</h1>
+    
+</div>
+<br>
+
+<div class="scan-layout">
+
+    <!-- LEFT PANEL -->
+    <div class="card">
+
+        <h2>
+            <i class="fa-solid fa-sliders"></i>
+            Scan Configuration
+        </h2>
+        <br>
+
+        <form method="POST" action="{{ url_for('scan') }}">
+
+            <div class="form-group">
+                <label>
+                    <i class="fa-solid fa-server"></i>
+                    Target Source
+                </label>
+
+                <select id="target_mode" name="target_mode">
+                    <option value="configured"
+                        {% if target_source == "configured" %}selected{% endif %}>
+                        Connected Device
+                    </option>
+
+                    <option value="manual"
+                        {% if target_source == "manual" %}selected{% endif %}>
+                        Manual Configuration
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group" id="deviceTargetGroup">
+                <label>
+                    <i class="fa-solid fa-desktop"></i>
+                    Target Device
+                </label>
+
+                <select id="device_target" name="device_target">
+                    {% for device in devices %}
+                    <option value="{{ device.ip }}"
+                        {% if device.ip == device_target %}selected{% endif %}>
+                        {{ device.hostname }} ({{ device.ip }})
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group"
+                 id="manualTargetGroup"
+                 style="display:none;">
+
+                <label>
+                    <i class="fa-solid fa-globe"></i>
+                    Manual Target
+                </label>
+
+                <input
+                    type="text"
+                    id="manual_target"
+                    name="manual_target"
+                    value="{{ manual_target or '' }}"
+                    placeholder="192.168.1.10 or scanme.nmap.org">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    <i class="fa-solid fa-crosshairs"></i>
+                    Scan Type
+                </label>
+
+                <select id="scan_type" name="scan_type">
+                    <option value="-sn">Host Discovery Scan (-sn)</option>
+                    <option value="-sS">Stealth Scan (-sS)</option>
+                    <option value="-sT">TCP Connect Scan (-sT)</option>
+                    <option value="-sU">UDP Scan (-sU)</option>
+                    <option value="-sV">Version Detection (-sV)</option>
+                    <option value="-O">Operating System Detection (O)</option>
+                    <option value="-A">Aggressive Scan (-A)</option>
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    <i class="fa-solid fa-sliders"></i>
+                    Additional Options
+                </label>
+
+                <input
+                    type="text"
+                    id="options"
+                    name="options"
+                    placeholder="-Pn -T4 -p 22,80,443">
+
+            </div>
+
+            <div class="form-group" id="sudoGroup" style="display:none;">
+
+                <label>
+                    <i class="fa-solid fa-key"></i>
+                    Sudo Password
+                </label>
+
+                <input
+                    type="password"
+                    id="sudo_password"
+                    name="sudo_password"
+                    placeholder="Enter Kali sudo password">
+
+            </div>
+
+            <button class="btn-primary scan-btn" type="submit">
+                <i class="fa-solid fa-play"></i>
+                Start Scan
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- RIGHT PANEL -->
+
+    <div class="card">
+
+        <h2>
+            <i class="fa-solid fa-circle-info"></i>
+            Scan Information
+        </h2>
+        <br>
+
+        <div class="info-grid">
+
+            <div class="info-box">
+                <span class="info-label">Target Source</span>
+                <span id="summaryMode"></span>
+            </div>
+
+            <div class="info-box">
+                <span class="info-label">Scan Type</span>
+                <span id="summaryScan">None</span>
+            </div>
+
+            <div class="info-box">
+                <span class="info-label">Target</span>
+                <span id="summaryTarget">
+                    {% if devices %}
+                        {{ devices[0].hostname }} ({{ devices[0].ip }})
+                    
+                    {% endif %}
+                    
+                    
+                </span>
+            </div>
+
+            <div class="info-box">
+                <span class="info-label">Options</span>
+                <span id="summaryOptions">None</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card">
+
+    <h2>
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        Command Passed to Kali VM
+    </h2>
+
+    <p class="command-line">
+        {% if command %}
+        $ {{ command }}
+        {% else %}
+        No command executed.
+        {% endif %}
+    </p>
+
+</div>
+
+<div class="card terminal-card">
+
+    <h2>
+        <i class="fa-solid fa-file-code"></i>
+        Scan Output
+    </h2>
+    <br>
+
+    <div class="terminal">
+
+{% if output %}
+{{ output }}
+{% else %}
+
+Waiting for scan...
+
+Select a target and click "Start Scan".
+
+The raw output from the Kali Linux virtual machine
+will appear here.
+{% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+
+const targetMode=document.getElementById("target_mode");
+const deviceGroup=document.getElementById("deviceTargetGroup");
+const manualGroup=document.getElementById("manualTargetGroup");
+
+function updateTargetMode(){
+
+    if (targetMode.value === "configured") {
+
+        deviceGroup.style.display = "block";
+        manualGroup.style.display = "none";
+
+        const deviceSelect = document.getElementById("device_target");
+
+        if (deviceSelect.options.length > 0) {
+            document.getElementById("summaryTarget").textContent =
+                deviceSelect.options[deviceSelect.selectedIndex].text;
+        } else {
+            document.getElementById("summaryTarget").textContent =
+                "No Targets Available";
+        }
+
+    
+
+    }else{
+        deviceGroup.style.display = "none";
+        manualGroup.style.display = "block";
+
+        document.getElementById("summaryTarget").textContent =
+            document.getElementById("manual_target").value || "No Target Entered";
+    }
+
+    document.getElementById("summaryMode").textContent =
+        targetMode.options[targetMode.selectedIndex].text;
+}
+
+targetMode.addEventListener("change",updateTargetMode);
+
+const scanType = document.getElementById("scan_type");
+const sudoGroup = document.getElementById("sudoGroup");
+
+function updateScanType(){
+
+    document.getElementById("summaryScan").textContent =
+        scanType.options[scanType.selectedIndex].text;
+
+    const requiresSudo = [
+        "-sS",
+        "-sU",
+        "-O",
+        "-A"
+    ];
+
+    if(requiresSudo.includes(scanType.value)){
+        sudoGroup.style.display = "block";
+    }
+    else{
+        sudoGroup.style.display = "none";
+        document.getElementById("sudo_password").value = "";
+    }
+}
+
+scanType.addEventListener("change", updateScanType);
+
+document.getElementById("device_target").addEventListener("change",function(){
+
+    document.getElementById("summaryTarget").textContent=
+        this.options[this.selectedIndex].text;
+
+});
+
+document.getElementById("manual_target").addEventListener("input", function(){
+
+    document.getElementById("summaryTarget").textContent =
+        this.value || "No Target Entered";
+
+});
+
+document.getElementById("options").addEventListener("input",function(){
+
+    document.getElementById("summaryOptions").textContent=
+        this.value || "None";
+
+});
+
+updateTargetMode();
+updateScanType();
+
+</script>
+
+<script src="{{ url_for('static', filename='js/nmap.js') }}"></script>
+
+{% endblock %}
