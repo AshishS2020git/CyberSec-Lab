@@ -28,7 +28,7 @@
         }
 
         body{
-            background:#161b22; 
+            background:#171a22;
             display:flex;
             justify-content:center;
             align-items:center;
@@ -46,22 +46,22 @@
             width:380px;
             font-family:'Inter',sans-serif;
             font-weight: 500px;
-            background:#000103;
+            background:#1e222d;
             padding:35px;
-            border-radius:12px;
-            border:1px solid #1e85ed;
-            box-shadow:0 0 30px rgba(0,0,0,.45);
+            border-radius:20px;
+            border:1px solid rgba(255,255,255,.03);
+            box-shadow:12px 12px 24px #0d0f14, -8px -8px 18px #2a3040;
         }
 
         h1{
             text-align:center;
             margin-bottom:5px;
-            color:#58a6ff;
+            color:#a993ff;
         }
 
         .subtitle{
             text-align:center;
-            color:#8b949e;
+            color:#a7aec2;
             margin-bottom:30px;
             font-size:14px;
             font-family:'Inter',sans-serif;
@@ -78,23 +78,26 @@
             padding:12px;
             margin-bottom:20px;
             border:none;
-            border-radius:6px;
-            background:#21262d;
+            border-radius:10px;
+            background:#13161d;
             color:white;
+            border:1px solid rgba(255,255,255,.03);
             outline:none;
             font-size:15px;
+            box-shadow:inset 4px 4px 8px #0e1016, inset -3px -3px 7px #262c39;
         }
 
         input:focus{
-            border:1px solid #58a6ff;
+            border:1px solid #8f72ff;
+            box-shadow:inset 3px 3px 7px #0e1016, inset -2px -2px 6px #262c39, 0 0 0 3px rgba(112,71,255,.18);
         }
 
         button{
             width:100%;
             padding:12px;
             border:none;
-            border-radius:6px;
-            background:#238636;
+            border-radius:10px;
+            background:linear-gradient(145deg,#815dff,#5530d6);
             color:white;
             font-size:16px;
             cursor:pointer;
@@ -102,13 +105,14 @@
         }
 
         button:hover{
-            background:#2ea043;
+            background:linear-gradient(145deg,#9478ff,#6340e8);
+            box-shadow:inset 3px 3px 7px #4626b5, inset -2px -2px 5px #9b82ff;
         }
 
         .error{
-            background:#8b0000;
+            background:#35222b;
             padding:10px;
-            border-radius:6px;
+            border-radius:10px;
             margin-bottom:15px;
             text-align:center;
         }
@@ -116,7 +120,7 @@
         .footer{
             text-align:center;
             margin-top:20px;
-            color:#8b949e;
+            color:#a7aec2;
             font-size:12px;
         }
 

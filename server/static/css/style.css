@@ -685,3 +685,193 @@ NMAP- Scan
 .terminal-card{
     margin-top:25px;
 }
+
+.form-error{
+    margin-bottom:18px;
+    padding:12px;
+    border-radius:8px;
+    color:#fecaca;
+    background:#3f1d1d;
+    border:1px solid #ef4444;
+}
+
+.consent-check{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    color:#cbd5e1;
+    line-height:1.45;
+}
+
+.consent-check input{
+    width:auto;
+    margin:3px 0 0;
+}
+
+.hydra-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-top:22px;
+}
+
+/* =========================================================
+   CHARCOAL + VIOLET NEUMORPHISM
+   Shared by the dashboard, scanner, and lab-tool pages.
+   ========================================================= */
+:root {
+    --neo-base: #171a22;
+    --neo-raised: #1e222d;
+    --neo-inset: #13161d;
+    --neo-text: #edf0fa;
+    --neo-muted: #a7aec2;
+    --neo-violet: #7047ff;
+    --neo-violet-bright: #8f72ff;
+    --neo-shadow-dark: #0d0f14;
+    --neo-shadow-light: #2a3040;
+}
+
+body {
+    background: var(--neo-base);
+    color: var(--neo-text);
+}
+
+.sidebar,
+.topbar {
+    background: #191d26;
+    border-color: transparent;
+    box-shadow: 10px 0 24px var(--neo-shadow-dark), -2px 0 12px var(--neo-shadow-light);
+}
+
+.topbar {
+    box-shadow: 0 8px 22px var(--neo-shadow-dark), 0 -1px 8px var(--neo-shadow-light);
+}
+
+.logo,
+.sidebar-nav,
+.logout {
+    border-color: rgba(143, 114, 255, .16);
+}
+
+.nav-link {
+    color: var(--neo-muted);
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: #222735;
+    color: #fff;
+    box-shadow: inset 2px 2px 5px #13161d, inset -2px -2px 5px #30384a;
+}
+
+.nav-link.active {
+    color: #e7e0ff;
+    border-left: 3px solid var(--neo-violet-bright);
+}
+
+.logout {
+    background: #2b1e2d;
+    color: #ffd9e2;
+    box-shadow: 5px 5px 12px var(--neo-shadow-dark), -3px -3px 8px #2a3040;
+}
+
+.logout:hover {
+    background: #3b2434;
+}
+
+.card,
+.panel {
+    background: var(--neo-raised);
+    border: 1px solid rgba(255, 255, 255, .025);
+    box-shadow: 10px 10px 20px var(--neo-shadow-dark), -7px -7px 16px var(--neo-shadow-light);
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(143, 114, 255, .35);
+}
+
+.card h3,
+.topbar p,
+.logo span,
+.status {
+    color: var(--neo-muted);
+}
+
+thead,
+tbody tr:hover {
+    background: #202532;
+}
+
+td {
+    border-color: rgba(167, 174, 194, .12);
+}
+
+input,
+select {
+    background: var(--neo-inset);
+    color: var(--neo-text);
+    border: 1px solid rgba(255, 255, 255, .03);
+    box-shadow: inset 4px 4px 8px #0e1016, inset -3px -3px 7px #262c39;
+}
+
+input:focus,
+select:focus {
+    border-color: var(--neo-violet-bright);
+    box-shadow: inset 3px 3px 7px #0e1016, inset -2px -2px 6px #262c39, 0 0 0 3px rgba(112, 71, 255, .18);
+}
+
+.btn,
+.btn-primary,
+.icon-btn {
+    background: linear-gradient(145deg, #815dff, #5530d6);
+    color: #fff;
+    border: 0;
+    box-shadow: 6px 6px 12px var(--neo-shadow-dark), -3px -3px 8px #2d3444;
+}
+
+.btn:hover,
+.btn-primary:hover,
+.icon-btn:hover {
+    background: linear-gradient(145deg, #9478ff, #6340e8);
+    color: #fff;
+    box-shadow: inset 3px 3px 7px #4626b5, inset -2px -2px 5px #9b82ff;
+}
+
+.badge.online {
+    background: #163a35;
+    color: #55e1c3;
+}
+
+.badge.offline {
+    background: #35222b;
+    color: #f7a9b9;
+}
+
+.status-dot {
+    background: #55e1c3;
+    box-shadow: 0 0 8px rgba(85, 225, 195, .8);
+}
+
+.info-box {
+    background: #1a1e28;
+    border-color: rgba(143, 114, 255, .26);
+    box-shadow: inset 3px 3px 7px #12151c, inset -2px -2px 5px #272d3a;
+}
+
+.info-label {
+    color: #b5a7ff;
+}
+
+.command-box,
+.command-line,
+.terminal {
+    background: #101219;
+    border-color: rgba(143, 114, 255, .35);
+    box-shadow: inset 5px 5px 10px #090a0e, inset -3px -3px 7px #1e232d;
+}
+
+.command-line {
+    border-left-color: var(--neo-violet-bright);
+    color: #c5b9ff;
+}

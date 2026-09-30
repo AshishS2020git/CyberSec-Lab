@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block page_title %}Hydra | CyberLab{% endblock %}
+{% block title %}Hydra{% endblock %}
+{% block subtitle %}Controlled credential-testing jobs for authorized lab devices{% endblock %}
+
+{% block content %}
+<div class="scan-layout">
+    <section class="card">
+        <h2><i class="fa-solid fa-key"></i> Lab Job Configuration</h2>
+        <br>
+
+        {% if error %}
+        <p class="form-error">{{ error }}</p>
+        {% endif %}
+
+        <form method="POST" action="{{ url_for('run_hydra_job') }}">
+            <div class="form-group">
+                <label for="target">Authorized target</label>
+                <select id="target" name="target" required {% if not devices %}disabled{% endif %}>
+                    {% if devices %}
+                        {% for device in devices %}
+                        <option value="{{ device.ip }}" {% if form.target == device.ip %}selected{% endif %}>
+                            {{ device.hostname }} ({{ device.ip }})
+                        </option>
+                        {% endfor %}
+                    {% else %}
+                        <option>No online lab devices available</option>
+                    {% endif %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="service">Service</label>
+                <select id="service" name="service" required>
+                    {% for key, service in services.items() %}
+                    <option value="{{ key }}" {% if form.service == key %}selected{% endif %}>
+                        {{ service.label }} (default port {{ service.default_port }})
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="port">Port</label>
+                <input id="port" type="number" min="1" max="65535" name="port" value="{{ form.port or 22 }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="wordlist">Credential set</label>
+                <select id="wordlist" name="wordlist" required>
+                    {% for key, wordlist in wordlists.items() %}
+                    <option value="{{ key }}" {% if form.wordlist == key %}selected{% endif %}>{{ wordlist.label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <label class="consent-check">
+                <input type="checkbox" name="authorized" value="yes" {% if form.authorized %}checked{% endif %} required>
+                I confirm that I own this target or have explicit authorization to test it.
+            </label>
+
+            <div class="hydra-actions">
+                <button class="btn-primary scan-btn" name="action" value="preview" type="submit" {% if not devices %}disabled{% endif %}>Preview job</button>
+                <button class="btn scan-btn" name="action" value="run" type="submit" {% if not devices %}disabled{% endif %}>Run authorized job</button>
+            </div>
+        </form>
+    </section>
+
+    <section class="card">
+        <h2><i class="fa-solid fa-shield-halved"></i> Built-in limits</h2>
+        <br>
+        <p>Only online, registered device IPs are selectable.</p>
+        <p>Only SSH and FTP are available initially.</p>
+        <p>Jobs use VM-provisioned demo lists, one task, and stop after a first match.</p>
+    </section>
+</div>
+
+{% if command %}
+<section class="card">
+    <h2><i class="fa-solid fa-terminal"></i> Reviewed command</h2>
+    <p class="command-line">$ {{ command }}</p>
+</section>
+{% endif %}
+
+{% if output is not none %}
+<section class="card terminal-card">
+    <h2><i class="fa-solid fa-file-code"></i> Job output</h2>
+    <br>
+    <div class="terminal">{{ output }}{% if stderr %}
+
+[VM stderr]
+{{ stderr }}{% endif %}</div>
+</section>
+{% endif %}
+{% endblock %}

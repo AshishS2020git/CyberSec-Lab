@@ -5,6 +5,7 @@ from flask import Flask, render_template, request
 from pathlib import Path
 from kali_executor import *
 from nmap import *
+from hydra import SERVICES as HYDRA_SERVICES, WORDLISTS as HYDRA_WORDLISTS, build_command as build_hydra_command, command_preview as hydra_command_preview, run_hydra, validate_target as validate_hydra_target
 from datetime import datetime
 from functools import wraps
 
@@ -277,8 +278,63 @@ def terminal():
     return render_template("terminal.html",active_page="terminal")
 
 @app.route("/hydra")
+@login_required
 def hydra():
-    return render_template("hydra.html",active_page="hydra")
+    return render_hydra_page()
+
+
+def online_devices():
+    con = get_con()
+    devices = con.execute(
+        "SELECT hostname, ip FROM devices WHERE is_online = 1 ORDER BY hostname"
+    ).fetchall()
+    con.close()
+    return devices
+
+
+def render_hydra_page(*, form=None, error=None, command=None, output=None, stderr=None):
+    return render_template(
+        "hydra.html",
+        active_page="hydra",
+        devices=online_devices(),
+        services=HYDRA_SERVICES,
+        wordlists=HYDRA_WORDLISTS,
+        form=form or {},
+        error=error,
+        command=command,
+        output=output,
+        stderr=stderr,
+    )
+
+
+@app.post("/hydra/run")
+@login_required
+def run_hydra_job():
+    form = {
+        "target": (request.form.get("target") or "").strip(),
+        "service": request.form.get("service") or "",
+        "port": request.form.get("port") or "",
+        "wordlist": request.form.get("wordlist") or "",
+        "authorized": request.form.get("authorized") == "yes",
+    }
+    if not form["authorized"]:
+        return render_hydra_page(form=form, error="Confirm authorization before continuing."), 400
+
+    permitted_targets = {device["ip"] for device in online_devices()}
+    try:
+        target = validate_hydra_target(form["target"], permitted_targets)
+        command = build_hydra_command(target, form["service"], form["port"], form["wordlist"])
+    except ValueError as exc:
+        return render_hydra_page(form=form, error=str(exc)), 400
+
+    preview = hydra_command_preview(command)
+    if request.form.get("action") == "preview":
+        return render_hydra_page(form=form, command=preview)
+    if request.form.get("action") != "run":
+        return render_hydra_page(form=form, error="Choose preview or run."), 400
+
+    output, stderr = run_hydra(command)
+    return render_hydra_page(form=form, command=preview, output=output, stderr=stderr)
 
 @app.route("/john")
 def john():
